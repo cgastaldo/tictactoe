@@ -1,8 +1,52 @@
 function Gameboard () {
-    gameboard = [];
+    gameboard = ['', '', '',
+                 '', '', '', 
+                 '', '', '',];
+    return gameboard;
 }
 
-//players stored as objects
+function createUser (player, marker){
+  this.player = player;
+  this.marker = marker;
+}
+
+function score(){
+
+}
+
+// Update array with X/O location - Update player P_array with location
+
+
+function winConditions(player_array){
+  win1 = ['0', '1', '2'];
+  win2 = ['3', '4', '5'];
+  win3 = ['6', '7', '8'];
+  win4 = ['0', '3', '6'];
+  win5 = ['1', '4', '7'];
+  win6 = ['2', '5', '8'];
+  win7 = ['0', '4', '8'];
+  win8 = ['2', '4', '6'];
+  console.log('maybe')
+  function checkWin(player_array){
+    for (let i = 0; i < 9; i++){
+      console.log('yes');
+      let win = 'win' + String(i);
+      if (player_array.includes(win[0] && win[1] && win[2])){
+        alert('Winner'); 
+      }
+    }
+  }
+}
+
+
+
+function winnerAnnouncment(){
+  console.log('YOU WIN!');
+}
+
+
+let empty = new Gameboard();
+
 
 //object to control the flow of the game
 
