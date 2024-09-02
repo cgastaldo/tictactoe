@@ -29,20 +29,18 @@ function winConditions(player_array){
   for (i=0; i<win_possibilities.length; i++){
     win = win_possibilities[i];
     if (win.every(element => player_array.includes(element))){
-      console.log(win);
+      return true;
     };
   }
 
 }
 
-const information = document.getElementById('information');
-const user2_info = document.createElement('div');
-const game_info = document.createElement('div');
+//Collect user1 and user2 information and create new
 
 const user1_name = document.querySelector('#user1Name');
 const user1_radioBtns = document.querySelectorAll('input[name="marker1"]');
-const nameBtn = document.querySelector('.acceptUser1');
-nameBtn.addEventListener('click', ()=>{
+const nameBtn1 = document.querySelector('.acceptUser1');
+nameBtn1.addEventListener('click', ()=>{
   let selectedMarker;
   for (const user1_radioBtn of user1_radioBtns) {
     if (user1_radioBtn.checked){
@@ -51,52 +49,75 @@ nameBtn.addEventListener('click', ()=>{
     }
   }
   user1 = new createUser(user1Name.value, selectedMarker)
+  
+})
+
+const user2_name = document.querySelector('#user2Name');
+const user2_radioBtns = document.querySelectorAll('input[name="marker2"]');
+const nameBtn2 = document.querySelector('.acceptUser2');
+nameBtn2.addEventListener('click', ()=>{
+  let selectedMarker;
+  for (const user2_radioBtn of user2_radioBtns) {
+    if (user2_radioBtn.checked){
+      selectedMarker = user2_radioBtn.value;
+      break;
+    }
+  }
+  user2 = new createUser(user2Name.value, selectedMarker)
 })
 
 
 
+const information = document.getElementById('information');
+const user2_info = document.createElement('div');
+const game_info = document.createElement('div');
+
+
+/* Problems
+1. Alternate between user1 and user2 based on markers
+2. Disable Start Game until user 1 and user 2 values input
+3. Remove user 2 X/O selection and add text that says value 
+   is based on user 1 selection
+4. Create score board
+5. Add background
+6. 
+
+*/
 
 
 
 
 
+//New game button initiate and allow game
+const newGame = document.getElementById('startGame');
+newGame.addEventListener('click', ()=>{
+  const gameGrid = document.getElementById('grid');
+  for (let i=0; i<9; i++){
+    new_board = Gameboard();
+    const cell = document.createElement('div');
+    cell.className = 'cell' + String(i);
+    gameGrid.appendChild(cell);
+    cell.innerText = new_board[i];
+  }
+  
+  for (let i=0; i<9; i++){
+    current_cell = '.cell' + String(i);
+    const cell = document.querySelector(current_cell);
+    cell.addEventListener('click', ()=> {
+      cell.innerText = user1.marker;
+      userArray(user1_array, String(i));
+      console.log(String(i));
+      if (winConditions(user1_array) === true){
+        console.log('You win'); //disable game
+      }
+    }, {once:true})
+    
+  }
+})
 
 
-
-
-
-
-
-
-
-let empty = new Gameboard();
-
-const gameGrid = document.getElementById('grid');
-for (let i=0; i<9; i++){
-  new_board = Gameboard();
-  const cell = document.createElement('div');
-  cell.className = 'cell' + String(i);
-  gameGrid.appendChild(cell);
-  cell.innerText = new_board[i];
-}
-
-
-function clicker(){
-  cell0.innerText = 'X';
-  console.log('0');
-}
-
-user1_array = [];
-
-for (let i=0; i<9; i++){
-  new_board = Gameboard();
-  current_cell = '.cell' + String(i);
-  const cell = document.querySelector(current_cell);
-  cell.addEventListener('click', ()=> {
-    cell.innerText = 'X';
-    userArray(user1_array, i);
-    console.log(String(i));
-  }, {once:true})
+if (user1.marker === 'X'){
+  
 }
 
 //object to control the flow of the game
@@ -123,7 +144,7 @@ Goals
 2. When game is working, create object that will handle display/DOM logic. Write 
 function that render the contents of gameboard array to webpage.
 
-4. Clean up interface to allow players to put in their names. Include button to 
+4.  Include button to 
 start/restart game and add a display element that shows results upon game end.
 
 */
