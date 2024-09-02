@@ -1,13 +1,28 @@
+#container{
+  /*add image ?*/
+}
+
+#gridContainer{
+  display:grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
 #grid {
-    border: 5px solid black;
+    border: none;
     width:302px;
     height:306px;
     display:grid;
     grid-template-columns: 100px 100px 100px;
+    outline: 2px solid #EF4765;
+    box-shadow: 0 0 10px #EF4765, inset 0 0 10px #EF4765;    
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
 }
 
 #grid>div {
-    border: 1px solid black;
+    border: 1px solid #EF4765;
     background-color: white;
     width: 100px;
     height: 100px;
@@ -15,14 +30,13 @@
     justify-content: center;
     align-items: center;
     font-size: 60px;
+    color:#EF4765;
 }
 
 #information{
     display:grid;
     grid-template-columns: repeat(2, 1fr);
     height: 400px;
-
-
 }
 
 #user1, #user2 {
@@ -34,10 +48,12 @@
     padding:10px;
 }
 
-#id{
-
+#game{
+  display:grid;
+  grid-column: 1/3;
+  align-items: center;
+  justify-items: center;
 }
-
 
 /*button 62 by Pintura getcssscan.com */
 button{
