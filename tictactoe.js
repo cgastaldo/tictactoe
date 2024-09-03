@@ -1,12 +1,27 @@
-function Gameboard () {
-  let gameboard = ['', '', '',
-                  '', '', '', 
-                  '', '', '',]; 
-  return gameboard;
-}
+const Gameboard = (function(){
+  let board = Array(9).fill('');
 
-function createUser(player, marker, array){
-  this.player = player;
+  const setBoard =  (index, marker) => {
+    if (index >=0 && index < board.length && board[index] === ''){
+      board[index] = marker;
+      return true;
+    }
+    return false;
+  };
+
+  const getField = (index) => board[index];
+
+  const resetBoard = () => {
+    board = Array(9).fill('');
+  };
+
+  const getBoard = () => board;
+
+  return {setBoard, getField, resetBoard, getBoard};
+})();
+
+function createUser(name, marker, array){
+  this.name = name;
   this.marker = marker;
   this.array = array;
 
@@ -32,11 +47,9 @@ function winConditions(player_array){
       return true;
     };
   }
-
 }
 
 //Collect user1 and user2 information and create new
-
 const user1_name = document.querySelector('#user1Name');
 const user1_radioBtns = document.querySelectorAll('input[name="marker1"]');
 const nameBtn1 = document.querySelector('.acceptUser1');
@@ -48,7 +61,8 @@ nameBtn1.addEventListener('click', ()=>{
       break;
     }
   }
-  user1 = new createUser(user1Name.value, selectedMarker)
+  init_array = [];
+  user1 = new createUser(user1Name.value, selectedMarker, init_array);
   
 })
 
@@ -63,7 +77,8 @@ nameBtn2.addEventListener('click', ()=>{
       break;
     }
   }
-  user2 = new createUser(user2Name.value, selectedMarker)
+  init_array = [];
+  user2 = new createUser(user2Name.value, selectedMarker, init_array);
 })
 
 
@@ -74,23 +89,58 @@ const game_info = document.createElement('div');
 
 
 /* Problems
-1. Alternate between user1 and user2 based on markers
+1. 
 2. Disable Start Game until user 1 and user 2 values input
 3. Remove user 2 X/O selection and add text that says value 
    is based on user 1 selection
 4. Create score board
 5. Add background
-6. 
+6. Start Game begins a new game when previous game done
 
 */
 
 
 
 
+function cycleTurn(){
+  if (user1_turn===1){
+    marker = user1.marker;
+    user_array = user1.array;
+    user1_turn = 0;
+    return [marker, user_array];
+  }
+  else{
+    marker = user2.marker;
+    user_array = user2.array;
+    user1_turn = 1;
+    return [marker, user_array];
+  }
+}
+
+function gameLogic(cell, i){
+  current_marker = cycleTurn()[0];
+  current_array = cycleTurn()[1];
+  cycleTurn();
+  player1_array = user1.array;
+  player2_arrray = user2.array;
+  console.log(current_array, current_marker);
+  cell.innerText = current_marker;
+  userArray(current_array, String(i));
+  console.log(String(i));
+  if (winConditions(user1.array) === true){
+    console.log(user1.player + ' wins!');
+    game_status = 0; //disable game
+  }
+  else if (winConditions(user2.array) === true){
+      console.log(user2.player + ' wins!')
+      game_status = 0;
+  }
+}
 
 //New game button initiate and allow game
 const newGame = document.getElementById('startGame');
 newGame.addEventListener('click', ()=>{
+
   const gameGrid = document.getElementById('grid');
   for (let i=0; i<9; i++){
     new_board = Gameboard();
@@ -99,19 +149,17 @@ newGame.addEventListener('click', ()=>{
     gameGrid.appendChild(cell);
     cell.innerText = new_board[i];
   }
-  
+  user1_turn = 1;
+  game_status = 1;
   for (let i=0; i<9; i++){
     current_cell = '.cell' + String(i);
     const cell = document.querySelector(current_cell);
-    cell.addEventListener('click', ()=> {
-      cell.innerText = user1.marker;
-      userArray(user1_array, String(i));
-      console.log(String(i));
-      if (winConditions(user1_array) === true){
-        console.log('You win'); //disable game
-      }
-    }, {once:true})
-    
+    if (game_status =1){
+      cell.addEventListener('click', gameLogic(cell, i), {once:true});
+    }
+    else if (game_status=0){
+      cell.removeEventListener('click', gameLogic(cell, i));
+    }
   }
 })
 
