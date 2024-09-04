@@ -1,13 +1,22 @@
 
 const gameBoard = document.querySelector('#gameBoard');
-const info = document.querySelector('#information');
+
 let initialCells = Array(9).fill('');
 let turn = 'X';
 
 let xArray = [];
 let oArray = [];
 
-info.textContent = "Circle goes first"
+
+//Create user input sections for names and marker type 
+//Add start game button
+//Create display that states turn and current score
+function createInfoDisplay(){
+    const info = document.querySelector('#information');
+    info.textContent = "Circle goes first"
+}
+
+createInfoDisplay();
 
 function createBoard(){
     initialCells.forEach((cell, index) => {
@@ -26,34 +35,39 @@ createBoard()
 function addTurn(e){
     e.target.innerText = turn;
     if (turn === 'X'){
-        xArray.push(e.target.id);
+        xArray.push(Number(e.target.id));
     }
     else {
-        oArray.push(e.target.id);
+        oArray.push(Number(e.target.id));
     }
     // If turn equals X, change to O otherwise, keep X
     turn = turn === 'X' ? 'O' : 'X';
-    info.textContent = "it is now " + turn + "'s turn";
+    //info.textContent = "it is now " + turn + "'s turn";
     e.target.removeEventListener('click', addTurn);
     checkScore()
 }
 
-
-//get this function to check against xArray and oArray
 function checkScore() {
+    const allCells = document.querySelectorAll('.cell');
     const winCombinations = [
         [0, 1, 2], [3, 4, 5],[6, 7, 8],
         [0, 3, 6], [1, 4, 7],[2, 5, 8],
         [0, 4, 8], [2, 4, 6]
     ];
-    console.log(xArray, oArray)
-    for (let i = 0; i<winCombinations.length; i++){
-        win = winCombinations[i];
-        if(win.every(element => xArray.includes(element))){
-            console.log('true');
-            return true;
-        }
-    }
     
-            
+    for (let i = 0; i<winCombinations.length; i++){
+        winCombination = winCombinations[i];
+        if(winCombination.every(cellLocation => 
+            xArray.includes(cellLocation))){
+            //info.textContent = "X wins.";
+            allCells.forEach(cell => 
+                cell.replaceWith(cell.cloneNode(true)));
+        }
+        else if(winCombination.every(cellLocation => 
+            oArray.includes(cellLocation))){
+            //info.textContent = "O wins.";
+            allCells.forEach(cell => 
+                cell.replaceWith(cell.cloneNode(true)));
+        }
+    }         
 }
