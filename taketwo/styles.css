@@ -7,7 +7,7 @@ body{
     align-content: center;
     height: ;
     grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
 }
 
 #gameBoard{
@@ -16,6 +16,7 @@ body{
     border: solid 2px black;
     display:flex;
     flex-wrap: wrap;
+    grid-column: 1/3;
 }
 
 .cell{
@@ -30,5 +31,15 @@ body{
 
 /* format user name, marker selection, and displays for turn and score*/
 #information{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 3em;
+}
+
+.playerInfo{
+
+}
+
+.gameInfo{
 
 }

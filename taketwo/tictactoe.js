@@ -12,11 +12,36 @@ let oArray = [];
 //Add start game button
 //Create display that states turn and current score
 function createInfoDisplay(){
-    const info = document.querySelector('#information');
-    info.textContent = "Circle goes first"
+    const infoPanel = document.querySelector('#information');
+    const infoPanelPlayers = document.createElement('div');
+    const infoPanelGame = document.createElement('div');
+    infoPanelPlayers.classList.add('playerInfo');
+    infoPanelGame.classList.add('gameInfo');
+    infoPanel.appendChild(infoPanelPlayers);
+    infoPanel.appendChild(infoPanelGame);
+
+    const player1Name = createElement('input');
+    const player2Name = createElement('input');
+    player1Name = "text";
+    player1Name.classList = 'user'
+    infoPanelPlayers.appendChild(player1Name);
+    infoPanelPlayers.appendChild(player2Name);
 }
 
 createInfoDisplay();
+
+function getPlayerInfo(){
+    const player1Name = createElement('input');
+    const player2Name = createElement('input');
+    player1Name = "text";
+    player1Name.classList = 'user'
+    infoPanelPlayers.appendChild(player1Name);
+    infoPanelPlayers.appendChild(player2Name);
+
+}
+
+
+
 
 function createBoard(){
     initialCells.forEach((cell, index) => {
