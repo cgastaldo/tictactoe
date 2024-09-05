@@ -107,8 +107,6 @@ function getPlayerName(playerNumber){
 
 }
 
-//create user1 and user 2 based on below
-//announce winner
 //update scoreboard
 //disable start button after clicking 
 //enable start button after finishing game
@@ -117,10 +115,23 @@ function getPlayerName(playerNumber){
 const startGameBtn = document.querySelector('button');
 startGameBtn.disabled = true;
 startGameBtn.disabled = false;
+
 startGameBtn.addEventListener('click', () => {
-    getRadioValue();
-    getPlayerName("player1");
-    getPlayerName("player2");
+    
+    const player1Name = getPlayerName("player1");
+    const player2Name = getPlayerName("player2");
+    const markerValue = getRadioValue();
+    if (markerValue === 'X'){
+        markerValuePlayer1 = 'X';
+        markerValuePlayer2 = 'O';
+    }
+    else if(markerValue === 'O'){
+        markerValuePlayer1 = 'O';
+        markerValuePlayer2 = 'X';
+    }
+    player1 = new createPlayer(player1Name, markerValuePlayer1);
+    player2 = new createPlayer(player2Name, markerValuePlayer2);
+
     createBoard()
 })
 
@@ -167,15 +178,28 @@ function checkScore() {
         [0, 4, 8], [2, 4, 6]];
     for (let i = 0; i<winCombinations.length; i++){
         winCombination = winCombinations[i];
+        let winnerName = '';
         if(winCombination.every(cellLocation => 
             xArray.includes(cellLocation))){
-            scoreDisplay.textContent = "X wins.";
+                if (player1.marker === 'X') {
+                    winnerName = player1.name;
+                }
+                else{
+                    winnerName = player2.name;
+                }
+            scoreDisplay.textContent = winnerName + " wins!";
             allCells.forEach(cell => 
                 cell.replaceWith(cell.cloneNode(true)));
         }
         else if(winCombination.every(cellLocation => 
             oArray.includes(cellLocation))){
-            scoreDisplay.textContent = "O wins.";
+                if (player1.marker === 'O') {
+                    winnerName = player1.name;
+                }
+                else{
+                    winnerName = player2.name;
+                }
+            scoreDisplay.textContent = winnerName + " wins!";
             allCells.forEach(cell => 
                 cell.replaceWith(cell.cloneNode(true)));
         }
