@@ -1,9 +1,7 @@
 const gameBoard = document.querySelector('#gameBoard');
-
-let turn = 'X';
-
 let xArray = [];
 let oArray = [];
+let turn = 'X';
 
 function createPlayer(name, marker){
     this.name = name;
@@ -30,24 +28,25 @@ function buildPlayerInfo(infoPanelPlayers){
     const player1NameInput = document.createElement('input');
     const player2NameLabel = document.createElement('p');
     const player2NameInput = document.createElement('input');
-    player1NameLabel.textContent = "Enter Player 1 Name";
+    player1NameLabel.textContent = "Enter Player 1 Name\n";
     player1NameInput.setAttribute('type', 'text');
     player1NameInput.setAttribute('id', 'player1Name');
     player1NameInput.setAttribute('name', 'textFieldName');
-    player2NameLabel.textContent = "Enter Player 2 Name";
+    player2NameLabel.textContent = "Enter Player 2 Name" + "\n";
     player2NameInput.setAttribute('type', 'text');
     player2NameInput.setAttribute('id', 'player2Name');
     player2NameInput.setAttribute('name', 'textFieldName');
     infoPanelPlayers.append(player1NameLabel);
-    player1NameLabel.append(player1NameInput);
+    infoPanelPlayers.append(player1NameInput);
     infoPanelPlayers.append(player2NameLabel);
-    player2NameLabel.append(player2NameInput);
+    infoPanelPlayers.append(player2NameInput);
 
     const markerDescription = document.createElement('p');
     markerDescription.textContent = "Player 1, please select a marker."
     + " Player 2 will automatically be assigned the other marker.";
     infoPanelPlayers.append(markerDescription);
 
+    const radioButtonContainer = document.createElement('div');
     const markerXLabel = document.createElement('Label');
     const markerOLabel = document.createElement('Label');
     const markerSelectX = document.createElement('input');
@@ -60,9 +59,10 @@ function buildPlayerInfo(infoPanelPlayers){
     markerSelectO.setAttribute('type', 'radio');
     markerSelectO.setAttribute('id', 'O');
     markerSelectO.setAttribute('name', 'markerType');
-    infoPanelPlayers.append(markerXLabel);
+    infoPanelPlayers.append(radioButtonContainer);
+    radioButtonContainer.append(markerXLabel);
     markerXLabel.append(markerSelectX);
-    infoPanelPlayers.append(markerOLabel);
+    radioButtonContainer.append(markerOLabel);
     markerOLabel.append(markerSelectO);
 }
 
@@ -70,6 +70,7 @@ function buildGameInfo(infoPanelGame) {
     const scoreDisplay = document.createElement('p');
     const currentTurn = document.createElement('p');
     const startGameBtn = document.createElement('button');
+    const startGameBtnContainer = document.createElement('div');
     scoreDisplay.classList.add('score');
     currentTurn.classList.add('turn');
     startGameBtn.textContent = "Start Game";
@@ -77,7 +78,10 @@ function buildGameInfo(infoPanelGame) {
     scoreDisplay.textContent = " ";
     infoPanelGame.append(scoreDisplay);
     infoPanelGame.append(currentTurn);
-    infoPanelGame.append(startGameBtn);
+    infoPanelGame.append(startGameBtnContainer);
+    startGameBtnContainer.append(startGameBtn)
+
+    //build scoreboard here
 }
 
 function assignPlayerInfo(){
@@ -104,20 +108,14 @@ function getPlayerName(playerNumber){
     else if (playerNumber === 'player2'){
         return textFieldName[1].value;
     }
-
 }
 
-//update scoreboard
-//disable start button after clicking 
-//enable start button after finishing game
-//need to overwrite within field and not create one below
-
+//DISABLE START GAME AND ENABLE AFTER USER INFO FULL
+//INFORM PLAYER OF THE ABOVE
+//HAVE TO HANDLE DRAW
 const startGameBtn = document.querySelector('button');
-startGameBtn.disabled = true;
-startGameBtn.disabled = false;
 
 startGameBtn.addEventListener('click', () => {
-    
     const player1Name = getPlayerName("player1");
     const player2Name = getPlayerName("player2");
     const markerValue = getRadioValue();
@@ -132,23 +130,28 @@ startGameBtn.addEventListener('click', () => {
     player1 = new createPlayer(player1Name, markerValuePlayer1);
     player2 = new createPlayer(player2Name, markerValuePlayer2);
 
-    createBoard()
+    clearBoard();
+    createBoard();
+    startGameBtn.disabled=true;
 })
 
-//user1 = new createUser(user1Name.value, selectedMarker);
-
-
+function clearBoard(){
+    let allCellsOnBoard = document.getElementsByClassName('cell');
+    allCellsOnBoard = [].slice.call(allCellsOnBoard,0);
+    for (let i=0; i<allCellsOnBoard.length; i++){
+        allCellsOnBoard[i].remove();
+    } 
+    xArray = [];
+    oArray = [];
+}
 
 function createBoard(){
     let initialCells = Array(9).fill('');
-
     initialCells.forEach((cell, index) => {
         const cellContent = document.createElement('div');
         cellContent.classList.add('cell');
         cellContent.id = index;
-
         cellContent.addEventListener('click', addTurn)
-
         gameBoard.append(cellContent);
     })
 }
@@ -187,9 +190,10 @@ function checkScore() {
                 else{
                     winnerName = player2.name;
                 }
-            scoreDisplay.textContent = winnerName + " wins!";
-            allCells.forEach(cell => 
+                scoreDisplay.textContent = winnerName + " wins!";
+                allCells.forEach(cell => 
                 cell.replaceWith(cell.cloneNode(true)));
+                startGameBtn.disabled=false; 
         }
         else if(winCombination.every(cellLocation => 
             oArray.includes(cellLocation))){
@@ -199,9 +203,10 @@ function checkScore() {
                 else{
                     winnerName = player2.name;
                 }
-            scoreDisplay.textContent = winnerName + " wins!";
-            allCells.forEach(cell => 
+                scoreDisplay.textContent = winnerName + " wins!";
+                allCells.forEach(cell => 
                 cell.replaceWith(cell.cloneNode(true)));
+                startGameBtn.disabled=false; 
         }
-    }         
+    }       
 }
