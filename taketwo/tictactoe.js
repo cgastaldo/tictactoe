@@ -22,13 +22,13 @@ function createInfoDisplay(){
     infoPanel.appendChild(infoPanelPlayers);
     infoPanel.appendChild(infoPanelGame);
 
-    getPlayerInfo(infoPanelPlayers);
-    getGameInfo(infoPanelGame);
+    buildPlayerInfo(infoPanelPlayers);
+    buildGameInfo(infoPanelGame);
 }
 
 createInfoDisplay();
 
-function getPlayerInfo(infoPanelPlayers){
+function buildPlayerInfo(infoPanelPlayers){
     const player1NameLabel = document.createElement('p');
     const player1NameInput = document.createElement('input');
     const player2NameLabel = document.createElement('p');
@@ -64,9 +64,11 @@ function getPlayerInfo(infoPanelPlayers){
     infoPanelPlayers.append(markerSelectO);
     infoPanelPlayers.append(markerNameO);
 
+
+
 }
 
-function getGameInfo(infoPanelGame) {
+function buildGameInfo(infoPanelGame) {
     const scoreDisplay = document.createElement('p');
     const currentTurn = document.createElement('p');
     const startGameBtn = document.createElement('button');
@@ -78,7 +80,29 @@ function getGameInfo(infoPanelGame) {
     infoPanelGame.append(scoreDisplay);
     infoPanelGame.append(currentTurn);
     infoPanelGame.append(startGameBtn);
+
+
 }
+
+
+function assignPlayerInfo(){
+
+    const player1Name = document.querySelector('player1Name');
+    const player2Name = document.querySelector('player2Name');
+    const markerSelectX = document.querySelector('markerTypeX');
+    const markerSelectO = document.querySelector('markerTypeO');
+
+}
+
+const startGameBtn = document.querySelector('button');
+startGameBtn.disabled = true;
+startGameBtn.disabled = false;
+startGameBtn.addEventListener('click', () => {
+    createBoard()
+})
+
+//user1 = new createUser(user1Name.value, selectedMarker);
+
 
 
 function createBoard(){
@@ -95,7 +119,7 @@ function createBoard(){
     })
 }
 
-createBoard()
+
 
 function addTurn(e){
     currentTurn = document.querySelector('.turn')
