@@ -3,6 +3,7 @@ let xArray = [];
 let oArray = [];
 let turn = 'X';
 
+
 function createPlayer(name, marker){
     this.name = name;
     this.marker = marker;
@@ -89,7 +90,7 @@ function buildGameInfo(infoPanelGame) {
     const scoreDisplayScorePlayer2p = document.createElement('p');
     const startGameExplanation = document.createElement('div');
 
-    const winnerAnnouncement = document.createElement ('p');
+    const winnerAnnouncement = document.createElement ('div');
     const acceptPlayerSettingsBtn = document.createElement('button');
     const startGameBtn = document.createElement('button');
     const gameBtnContainer = document.createElement('div');
@@ -105,15 +106,15 @@ function buildGameInfo(infoPanelGame) {
     startGameExplanation.classList.add('startGameExplanation');
     acceptPlayerSettingsBtn.classList.add('playerSettingsBtn')
     startGameBtn.classList.add('startGameBtn')
-
     winnerAnnouncement.classList.add('winnerAnnouncement');
+
     scoreDisplayTitle.textContent = "Player Scores";
     acceptPlayerSettingsBtn.textContent = "Accept Player Values"
     startGameBtn.textContent = "Start New Game";
     startGameExplanation.textContent = "You must fill out player names and select " +
         "a marker before starting a game.";
-    infoPanelGame.append(scoreDisplayContainer);
 
+    infoPanelGame.append(scoreDisplayContainer);
     scoreDisplayContainer.append(scoreDisplayTitle);
     scoreDisplayContainer.append(scoreDisplayNames);
     scoreDisplayNames.append(scoreDisplayName1p);
@@ -235,28 +236,28 @@ function addTurn(e){
     turn = turn === 'X' ? 'O' : 'X';
     currentTurn.textContent = "It is now " + turn + "'s turn";
     e.target.removeEventListener('click', addTurn);
+
     checkDraw();
     checkScore();
 }
 
-//NEED TO FIND WHERE TO PLACE - CURRENTLY NOT RESETTING OR SHOWING LAST MARKER PLACEMENT
 function checkDraw(){
     const allCells = document.querySelectorAll('.cell');
-    const winner = document.getElementsByClassName('winnerAnnouncement');
-    let occupiedCells = 0;
+    const winner = document.querySelector('.winnerAnnouncement');
+    const anyEmptyCells = (arr, fn = Boolean) => !arr.some(fn);
+    cellArray = [];
     for (let i = 0; i<allCells.length; i++){
-        if (allCells[i].textContent == '') break;
-        else occupiedCells += 1;
+        cellArray.push(allCells[i].textContent);
     }
-    if (occupiedCells == 9){
+    if (anyEmptyCells(cellArray, cell => cell == '')){
         winner.textContent = "It's a tie!";
-        startGameBtn.disabled=false; 
+        startGameBtn.disabled = false;
     }
-}
+}   
 
 function checkScore() {
     const scoreDisplay = document.querySelector('.score');
-    const winner = document.getElementsByClassName('winnerAnnouncement');
+    const winner = document.querySelector('.winnerAnnouncement');
     const allCells = document.querySelectorAll('.cell');
     const winCombinations = [
         [0, 1, 2], [3, 4, 5],[6, 7, 8],
@@ -270,12 +271,12 @@ function checkScore() {
                 if (player1.marker === 'X') {
                     winnerName = player1.name;
                     player1.increaseScore();
-                    winner.textContent = player1 + " wins!";
+                    winner.textContent = player1.name + " wins!";
                 }
                 else{
                     winnerName = player2.name;
                     player2.increaseScore();
-                    winner.textContent = player2 + " wins!";
+                    winner.textContent = player2.name + " wins!";
                 }
                 allCells.forEach(cell => 
                 cell.replaceWith(cell.cloneNode(true)));
@@ -286,12 +287,12 @@ function checkScore() {
                 if (player1.marker === 'O') {
                     winnerName = player1.name;
                     player1.increaseScore();
-                    winner.textContent = player1 + " wins!";
+                    winner.textContent = player1.name + " wins!";
                 }
                 else{
                     winnerName = player2.name;
                     player2.increaseScore();
-                    winner.textContent = player2 + " wins!";
+                    winner.textContent = player2.name + " wins!";
                 }
                 allCells.forEach(cell => 
                 cell.replaceWith(cell.cloneNode(true)));
