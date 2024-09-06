@@ -154,7 +154,6 @@ function getPlayerName(playerNumber){
     }
 }
 
-//HAVE TO HANDLE DRAW
 const startGameBtn = document.querySelector('.startGameBtn');
 const acceptPlayerSettingsBtn = document.querySelector('.playerSettingsBtn');
 const player1Input = document.getElementById('player1Name');
@@ -236,7 +235,23 @@ function addTurn(e){
     turn = turn === 'X' ? 'O' : 'X';
     currentTurn.textContent = "It is now " + turn + "'s turn";
     e.target.removeEventListener('click', addTurn);
-    checkScore()
+    checkDraw();
+    checkScore();
+}
+
+//NEED TO FIND WHERE TO PLACE - CURRENTLY NOT RESETTING OR SHOWING LAST MARKER PLACEMENT
+function checkDraw(){
+    const allCells = document.querySelectorAll('.cell');
+    const winner = document.getElementsByClassName('winnerAnnouncement');
+    let occupiedCells = 0;
+    for (let i = 0; i<allCells.length; i++){
+        if (allCells[i].textContent == '') break;
+        else occupiedCells += 1;
+    }
+    if (occupiedCells == 9){
+        winner.textContent = "It's a tie!";
+        startGameBtn.disabled=false; 
+    }
 }
 
 function checkScore() {
@@ -262,7 +277,6 @@ function checkScore() {
                     player2.increaseScore();
                     winner.textContent = player2 + " wins!";
                 }
-                //scoreDisplay.textContent = winnerName + " wins!";
                 allCells.forEach(cell => 
                 cell.replaceWith(cell.cloneNode(true)));
                 startGameBtn.disabled=false; 
@@ -272,12 +286,13 @@ function checkScore() {
                 if (player1.marker === 'O') {
                     winnerName = player1.name;
                     player1.increaseScore();
+                    winner.textContent = player1 + " wins!";
                 }
                 else{
                     winnerName = player2.name;
                     player2.increaseScore();
+                    winner.textContent = player2 + " wins!";
                 }
-                //scoreDisplay.textContent = winnerName + " wins!";
                 allCells.forEach(cell => 
                 cell.replaceWith(cell.cloneNode(true)));
                 startGameBtn.disabled=false; 
