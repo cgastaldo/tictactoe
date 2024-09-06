@@ -5,7 +5,8 @@ body{
     display: grid;
     justify-items: center;
     align-content: center;
-    height: ;
+    background: rgb(191,140,226);
+    background: radial-gradient(circle, rgba(191,140,226,1) 0%, rgba(238,140,140,1) 50%, rgba(231,182,113,1) 100%);
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 1fr 1fr;
     font-family: -apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -105,9 +106,31 @@ input[type="radio"] {
     height:200px;
 }
 
-.score{
+.scoreContainer{
+    border:2px solid rgb(84,105,212);
+    width: 250px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
 
 }
+
+.displayTitle{
+    grid-column: 1/3;
+    text-align: center;
+
+}
+
+.displayNames{
+    grid-row: 2/4;
+    text-align: left;
+}
+
+.displayScores{
+    grid-row: 2/4;
+    text-align: right;
+}
+
 
 button{
     border: 0;
