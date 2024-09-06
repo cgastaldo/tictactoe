@@ -75,7 +75,10 @@ function buildGameInfo(infoPanelGame) {
     const scoreDisplayTitle = document.createElement('div');
     const scoreDisplayNames = document.createElement('div');
     const scoreDisplayScores = document.createElement('div');
-    const scoreDisplayNamesparagraph = document.createElement('p');
+    const scoreDisplayName1p = document.createElement('p');
+    const scoreDisplayName2p = document.createElement('p');
+    const scoreDisplayScorePlayer1p = document.createElement('p');
+    const scoreDisplayScorePlayer2p = document.createElement('p');
 
     const currentTurn = document.createElement('p');
     const startGameBtn = document.createElement('button');
@@ -84,15 +87,23 @@ function buildGameInfo(infoPanelGame) {
     scoreDisplayTitle.classList.add('displayTitle');
     scoreDisplayNames.classList.add('displayNames');
     scoreDisplayScores.classList.add('displayScores');
+    scoreDisplayName1p.classList.add('displayName1');
+    scoreDisplayName2p.classList.add('displayName2');
+    scoreDisplayScorePlayer1p.classList.add('displayScorePlayer1');
+    scoreDisplayScorePlayer2p.classList.add('displayScorePlayer2');
+
     currentTurn.classList.add('turn');
-    scoreDisplayTitle.textContent = "Current score";
+    scoreDisplayTitle.textContent = "Player Scores";
     startGameBtn.textContent = "Start Game";
     currentTurn.textContent = "X goes first";
 
     infoPanelGame.append(scoreDisplayContainer);
     scoreDisplayContainer.append(scoreDisplayTitle);
-    scoreDisplayContainer.append(scoreDisplayNamesparagraph);
-    scoreDisplayNamesparagraph.append(scoreDisplayNames);
+    scoreDisplayContainer.append(scoreDisplayNames);
+    scoreDisplayNames.append(scoreDisplayName1p);
+    scoreDisplayNames.append(scoreDisplayName2p);
+    scoreDisplayScores.append(scoreDisplayScorePlayer1p);
+    scoreDisplayScores.append(scoreDisplayScorePlayer2p);
 
     scoreDisplayContainer.append(scoreDisplayScores);
     infoPanelGame.append(currentTurn);
@@ -135,8 +146,10 @@ startGameBtn.addEventListener('click', () => {
     const player1Name = getPlayerName("player1");
     const player2Name = getPlayerName("player2");
     const markerValue = getRadioValue();
-    const scoreDisplayNames= document.querySelector('.displayNames');
-    let scoreDisplayScores = document.querySelector('.displayScores');
+    const scoreDisplayName1= document.querySelector('.displayName1');
+    const scoreDisplayName2= document.querySelector('.displayName2');
+    let displayPlayer1Score = document.querySelector('.displayScorePlayer1');
+    let displayPlayer2Score = document.querySelector('.displayScorePlayer2')
 
     if (markerValue === 'X'){
         markerValuePlayer1 = 'X';
@@ -149,12 +162,12 @@ startGameBtn.addEventListener('click', () => {
     player1 = new createPlayer(player1Name, markerValuePlayer1);
     player2 = new createPlayer(player2Name, markerValuePlayer2);
 
-    scoreDisplayNames.append(player1Name);
-    scoreDisplayNames.append(player2Name);
+    scoreDisplayName1.append(player1Name);
+    scoreDisplayName2.append(player2Name);
 
 
-    scoreDisplayScores.append(player1Score);
-    scoreDisplayScores.append(player2Score);
+    displayPlayer1Score.append(player1Score);
+    displayPlayer2Score.append(player2Score);
 
 
     clearBoard();
