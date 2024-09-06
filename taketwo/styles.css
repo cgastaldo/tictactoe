@@ -21,6 +21,8 @@ body{
     grid-column: 1/3;
 }
 
+
+
 .cell{
     width:150px;
     height:150px;
@@ -35,9 +37,17 @@ body{
 #information{
     display:grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 4fr;
     padding-top: 3em;
     grid-column: 1/3;
     color:rgb(84, 105, 212);
+}
+
+.turn{
+    grid-column:1/3;
+    font-size: 30px;
+    font-weight: 800;
+    text-align: center;
 }
 
 .playerInfo{
@@ -104,6 +114,7 @@ input[type="radio"] {
     width: 75%;
     justify-items: center;
     height:200px;
+    gap: 15px;
 }
 
 .scoreContainer{
@@ -138,10 +149,19 @@ input[type="radio"] {
     margin:0;
 }
 
+.gameBtns{
+    display:flex;
+    gap: 2em;
+}
+
+.startGameExplanation{
+    text-align: center;
+}
+
 button{
     border: 0;
     outline: 0;
-    cursor: pointer;
+    cursor: q;
     color: white;
     background-color: rgb(84, 105, 212);
     box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(84 105 212) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
@@ -156,5 +176,11 @@ button{
     width: 120px;       
 }
 
+button:disabled, input[type='radio']:disabled, input[type='text']:disabled {
+    background-color: dimgrey;
+    color: linen;
+    cursor: not-allowed;
+    opacity: 1;
+}
 
 
